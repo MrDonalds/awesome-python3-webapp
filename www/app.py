@@ -17,10 +17,10 @@ from aiohttp import web
 def index(request):
     return web.Response(body=b'<h1>Awesome</h1>',headers={'content-type':'text/html'})
 
-async def init(loop):
+async def init(loop):      #为了提高并发性能，使用异步协程
     app = web.Application(loop=loop)
     app.router.add_route('GET', '/', index)
-    srv = await loop.create_server(app.make_handler(), '127.0.0.1', 9000)
+    srv = await loop.create_server(app.make_handler(), '127.0.0.1', 9000) # loop 也是异步io里的东西
     logging.info('server started at http://127.0.0.1:9000...')
     return srv
 
